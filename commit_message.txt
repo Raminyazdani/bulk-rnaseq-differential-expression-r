@@ -1,0 +1,19 @@
+Ramin Yazdani | bulk-rnaseq-differential-expression-r | main | feat(init): Initial repository setup
+
+Initialize the bulk RNA-seq differential expression analysis project with foundational 
+repository structure. This commit establishes the basic project organization with a 
+descriptive README outlining the project vision for differential expression analysis 
+using DESeq2 and pathway enrichment. The .gitignore file ensures R-specific artifacts 
+(.RData, .Rhistory, .Rproj.user) are excluded from version control, maintaining a 
+clean repository.
+
+The project aims to provide a reproducible R-based pipeline for bulk RNA-seq analysis, 
+featuring DESeq2 normalization, statistical testing, and comprehensive visualization of 
+gene expression patterns.
+
+This initial setup provides the foundation for a professional bioinformatics portfolio 
+project demonstrating expertise in RNA-seq analysis, R programming, and reproducible 
+research practices.
+
+Verified by: Reviewing file structure and ensuring .gitignore patterns are appropriate 
+for R projects.
