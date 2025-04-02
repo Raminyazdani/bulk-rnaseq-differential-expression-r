@@ -1,19 +1,20 @@
-Ramin Yazdani | bulk-rnaseq-differential-expression-r | main | feat(init): Initial repository setup
+Ramin Yazdani | bulk-rnaseq-differential-expression-r | main | feat(structure): Add RStudio project structure
 
-Initialize the bulk RNA-seq differential expression analysis project with foundational 
-repository structure. This commit establishes the basic project organization with a 
-descriptive README outlining the project vision for differential expression analysis 
-using DESeq2 and pathway enrichment. The .gitignore file ensures R-specific artifacts 
-(.RData, .Rhistory, .Rproj.user) are excluded from version control, maintaining a 
-clean repository.
+Implement RStudio project structure by creating the analysis/ directory and corresponding 
+.Rproj file. This organizational change separates analysis code from documentation, 
+following R community best practices for project organization.
 
-The project aims to provide a reproducible R-based pipeline for bulk RNA-seq analysis, 
-featuring DESeq2 normalization, statistical testing, and comprehensive visualization of 
-gene expression patterns.
+The analysis.Rproj file enables RStudio-specific features including:
+- Automatic working directory management
+- Project-scoped settings and history
+- Integrated package management
+- Seamless navigation between source files
 
-This initial setup provides the foundation for a professional bioinformatics portfolio 
-project demonstrating expertise in RNA-seq analysis, R programming, and reproducible 
-research practices.
+This structure makes the project more accessible to R developers who commonly use RStudio 
+as their primary IDE. The separation of concerns (documentation in root, code in analysis/) 
+improves project maintainability and clarity.
 
-Verified by: Reviewing file structure and ensuring .gitignore patterns are appropriate 
-for R projects.
+Updated README to reflect the new project structure with clear directory organization.
+
+Verified by: Opening the project in RStudio and confirming proper project initialization 
+and directory context.

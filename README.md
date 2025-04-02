@@ -4,14 +4,25 @@ A bioinformatics project for bulk RNA-seq differential expression analysis.
 
 ## Overview
 
-This project will analyze bulk RNA-sequencing data to identify differentially expressed genes between experimental conditions.
+This project analyzes bulk RNA-sequencing data to identify differentially expressed genes between experimental conditions using DESeq2.
 
 ## Tech Stack
 
-- R
+- R (4.x)
 - Bioconductor
 - DESeq2
+- enrichR
+
+## Project Structure
+
+```
+bulk-rnaseq-differential-expression-r/
+├── analysis/          # R analysis scripts
+│   └── analysis.Rproj # RStudio project
+├── .gitignore
+└── README.md
+```
 
 ## Getting Started
 
-Project in development...
+Open `analysis/analysis.Rproj` in RStudio to begin.
