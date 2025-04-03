@@ -1,20 +1,21 @@
-Ramin Yazdani | bulk-rnaseq-differential-expression-r | main | feat(structure): Add RStudio project structure
+Ramin Yazdani | bulk-rnaseq-differential-expression-r | main | feat(deps): Add required packages and loading logic
 
-Implement RStudio project structure by creating the analysis/ directory and corresponding 
-.Rproj file. This organizational change separates analysis code from documentation, 
-following R community best practices for project organization.
+Create main.R analysis script with comprehensive package dependencies for bulk RNA-seq 
+differential expression analysis. This commit establishes all required packages from both 
+CRAN and Bioconductor repositories, including DESeq2 (differential expression), airway 
+(example dataset), enrichR (pathway enrichment), pheatmap (heatmaps), org.Hs.eg.db (gene 
+annotation), and supporting packages for data manipulation and visualization.
 
-The analysis.Rproj file enables RStudio-specific features including:
-- Automatic working directory management
-- Project-scoped settings and history
-- Integrated package management
-- Seamless navigation between source files
+The package list includes:
+- Bioconductor packages: DESeq2, airway, org.Hs.eg.db
+- CRAN packages: GEOquery, Seurat, dplyr, tidyverse, ggplot2, patchwork, enrichR, pheatmap
 
-This structure makes the project more accessible to R developers who commonly use RStudio 
-as their primary IDE. The separation of concerns (documentation in root, code in analysis/) 
-improves project maintainability and clarity.
+Implemented a simple loading loop using library(pkg, character.only = TRUE) to load all 
+packages dynamically. This establishes the project's dependency footprint clearly before 
+implementing the installation automation logic.
 
-Updated README to reflect the new project structure with clear directory organization.
+This approach follows the common development pattern of first identifying what is needed, 
+then adding helper functions to automate the process.
 
-Verified by: Opening the project in RStudio and confirming proper project initialization 
-and directory context.
+Verified by: Running the script with packages pre-installed to confirm all load successfully 
+without errors.
