@@ -1,21 +1,25 @@
-Ramin Yazdani | bulk-rnaseq-differential-expression-r | main | feat(deps): Add required packages and loading logic
+Ramin Yazdani | bulk-rnaseq-differential-expression-r | main | feat(deps): Implement install_if_missing helper function
 
-Create main.R analysis script with comprehensive package dependencies for bulk RNA-seq 
-differential expression analysis. This commit establishes all required packages from both 
-CRAN and Bioconductor repositories, including DESeq2 (differential expression), airway 
-(example dataset), enrichR (pathway enrichment), pheatmap (heatmaps), org.Hs.eg.db (gene 
-annotation), and supporting packages for data manipulation and visualization.
+Add install_if_missing() helper function to automate package installation and improve 
+reproducibility. This function intelligently handles packages from both CRAN and 
+Bioconductor repositories with automatic fallback logic, reducing setup friction for 
+new users.
 
-The package list includes:
-- Bioconductor packages: DESeq2, airway, org.Hs.eg.db
-- CRAN packages: GEOquery, Seurat, dplyr, tidyverse, ggplot2, patchwork, enrichR, pheatmap
+Implementation details:
+- Checks for BiocManager availability and installs if missing
+- Uses requireNamespace() to detect missing packages
+- Attempts CRAN installation first with install.packages()
+- Falls back to Bioconductor with BiocManager::install() if CRAN fails
+- Includes tryCatch() error handling for robust operation
+- Automatically loads packages after successful installation
 
-Implemented a simple loading loop using library(pkg, character.only = TRUE) to load all 
-packages dynamically. This establishes the project's dependency footprint clearly before 
-implementing the installation automation logic.
+The function is intentionally commented out in the main workflow (lines 40-41) to prevent 
+automatic installation on every run, giving users control over package management. This 
+is a safety best practice for reproducible research scripts.
 
-This approach follows the common development pattern of first identifying what is needed, 
-then adding helper functions to automate the process.
+This enhancement makes the project more accessible to collaborators and reviewers who 
+may not have all dependencies installed, while maintaining the transparency of clearly 
+listing all required packages.
 
-Verified by: Running the script with packages pre-installed to confirm all load successfully 
-without errors.
+Verified by: Testing the function with a mix of installed and missing packages to confirm 
+proper CRAN→Bioconductor fallback behavior.
