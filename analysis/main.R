@@ -41,11 +41,41 @@ packages_list = c(
 
 # Uncomment to install packages
 # install_if_missing(packages_list)
+rm(install_if_missing)
 
 # Load packages
 for (pkg in packages_list) {
   library(pkg, character.only = TRUE)
 }
 
-# TODO: Add analysis code
-message("Analysis script initialized. Ready to add analysis code.")
+rm(list = ls())
+
+# Load data
+data("airway")
+airway
+
+# Extract count data and metadata
+count_data <- assay(airway)
+metadata <- colData(airway)
+
+head(count_data)
+dim(count_data)
+
+# Prepare metadata
+sample_info <- as.data.frame(metadata)
+sample_info = sample_info[, c(2, 3)]
+sample_info$dex <- gsub("trt", "treated", sample_info$dex)
+sample_info$dex <- gsub("untrt", "untreated", sample_info$dex)
+names(sample_info) <- c("cell_line", "dexamethasone")
+
+head(sample_info)
+summary(sample_info)
+
+# Check for missing values
+sum(is.na(count_data))
+
+# Validate data structure
+all(colnames(count_data) %in% rownames(sample_info))
+all(colnames(count_data) == rownames(sample_info))
+
+message("Data loaded and validated successfully.")
