@@ -79,3 +79,54 @@ all(colnames(count_data) %in% rownames(sample_info))
 all(colnames(count_data) == rownames(sample_info))
 
 message("Data loaded and validated successfully.")
+
+# Create DESeq2 dataset
+dex_init <- DESeqDataSetFromMatrix(
+  countData = count_data,
+  colData = sample_info,
+  design = ~dexamethasone
+)
+
+# Pre-filtering: remove genes with low counts
+dex = dex_init[rowSums(counts(dex_init)) >= 3, ]
+
+# Run DESeq2 analysis
+dex = DESeq(dex)
+
+# Get results
+result = results(dex)
+summary(result)
+
+# Get results at different significance thresholds
+result_0_05 <- results(dex, alpha = 0.05)
+result_0_001 <- results(dex, alpha = 0.001)
+
+# Sort by adjusted p-value
+result_0_05_sorted <- result_0_05[order(result_0_05$padj), ]
+result_0_001_sorted <- result_0_001[order(result_0_001$padj), ]
+
+# Extract top 10 genes
+top_10_genes_0_05 <- head(result_0_05_sorted, 10)
+top_10_genes_0_001 <- head(result_0_001_sorted, 10)
+
+top_10_genes_0_05
+top_10_genes_0_001
+
+# Generate MA plots
+plotMA(result)
+plotMA(result_0_05)
+plotMA(result_0_001)
+
+# Gene annotation: Convert Ensembl IDs to gene symbols
+ens_to_gene <- function(ensembl_id) {
+  return(mapIds(org.Hs.eg.db, keys = ensembl_id, column = "SYMBOL", keytype = "ENSEMBL"))
+}
+
+gene_names_0_05 = ens_to_gene(rownames(top_10_genes_0_05))
+gene_names_0_001 = ens_to_gene(rownames(top_10_genes_0_001))
+
+rownames(top_10_genes_0_05) <- gene_names_0_05
+rownames(top_10_genes_0_001) <- gene_names_0_001
+
+message("DESeq2 analysis complete. Gene symbols annotated.")
+
