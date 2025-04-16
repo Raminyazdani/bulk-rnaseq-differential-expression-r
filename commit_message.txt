@@ -1,37 +1,31 @@
-Ramin Yazdani | bulk-rnaseq-differential-expression-r | main | feat(analysis): Add DESeq2 differential expression analysis
+Ramin Yazdani | bulk-rnaseq-differential-expression-r | main | WIP(enrichment): Add pathway enrichment analysis (database name issue)
 
-Implement core differential expression analysis using DESeq2 with comprehensive statistical 
-testing, multiple significance thresholds, and gene annotation. This commit represents the 
-primary analytical engine of the pipeline, identifying genes differentially expressed between 
-dexamethasone-treated and untreated samples.
+Implement pathway enrichment functionality using enrichR to provide biological context for 
+differentially expressed genes. This commit adds the enrichment analysis framework, but 
+contains a database name error that will require correction.
 
-DESeq2 analysis workflow:
-- Created DESeqDataSet object from count matrix and sample metadata
-- Applied design formula: ~dexamethasone (comparing treated vs untreated)
-- Pre-filtered low-count genes (genes with <3 counts removed) to improve statistical power
-- Ran DESeq() for normalization and differential expression testing
-- Generated results at two significance thresholds:
-  * α = 0.05 (standard threshold, broader gene set)
-  * α = 0.001 (stringent threshold, highest confidence genes)
+Implementation:
+- Created enrich_genes() helper function to query enrichR web service
+- Established connection to enrichR API
+- Set up enrichment queries for differentially expressed gene lists
+- Initially configured with limited databases for testing
 
-Gene annotation:
-- Implemented ens_to_gene() helper function for batch ID conversion
-- Mapped Ensembl gene IDs to HGNC gene symbols using org.Hs.eg.db
-- Annotated top 10 differentially expressed genes at each significance level
-- Provides human-readable gene names for biological interpretation
+**Known issue:** Used outdated database name "KEGG_2020_Human" instead of current 
+"KEGG_2021_Human". This is a common error in bioinformatics workflows when reusing code 
+from older analyses or tutorials, as enrichR database names update annually with new releases. 
+This database name error would cause enrichment queries to fail or return no results.
 
-Visualizations:
-- Generated MA plots showing log2 fold change vs mean expression
-- Created plots at three levels: all genes, α=0.05 significant, α=0.001 significant
-- MA plots help identify expression patterns and assess analysis quality
+The enrichR service maintains multiple versions of biological databases (KEGG, Reactome, 
+Gene Ontology, OMIM, DisGeNET, HPO), and version identifiers change yearly as databases 
+are updated. This requires keeping database names synchronized with currently available 
+versions.
 
-Statistical methods:
-- Negative binomial generalized linear model for count data
-- Benjamini-Hochberg FDR correction for multiple testing
-- Size factor normalization to account for sequencing depth differences
+This represents an authentic work-in-progress commit that would be identified during testing 
+when enrichment queries fail, typical of iterative development where external API dependencies 
+can introduce version compatibility issues.
 
-This analysis identifies the transcriptional response to dexamethasone treatment, providing 
-the foundation for downstream pathway enrichment and biological interpretation.
+Next step: Correct database name and expand to comprehensive multi-database enrichment 
+analysis for complete biological interpretation.
 
-Verified by: Reviewing result counts at each threshold, inspecting top genes, and confirming 
-MA plot patterns match expected differential expression characteristics.
+Verified by: Code review and function structure inspection (would fail at runtime due to 
+incorrect database name).

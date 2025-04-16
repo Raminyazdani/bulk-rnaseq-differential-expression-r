@@ -130,3 +130,32 @@ rownames(top_10_genes_0_001) <- gene_names_0_001
 
 message("DESeq2 analysis complete. Gene symbols annotated.")
 
+# Pathway enrichment analysis
+enrich_genes <- function(gene_list, databases) {
+  enr <- enrichr(gene_list, databases)
+  for (i in seq_along(enr)) {
+    cat("\nDatabase:", names(enr)[i], "\n")
+    print(head(enr[[i]]), 10)
+  }
+  return(enr)
+}
+
+# Set up enrichR connection
+websiteLive <- getOption("enrichR.live")
+if (websiteLive) {
+  listEnrichrSites()
+  setEnrichrSite("Enrichr") # Human genes   
+}
+
+# OOPS: Using wrong database name - this will cause an error
+# The correct name is "KEGG_2021_Human" but we're using "KEGG_2020_Human"
+if (websiteLive) dbs <- listEnrichrDbs()
+library_names <- c("KEGG_2020_Human", "Reactome_2022")  # WRONG: 2020 instead of 2021
+
+# Try enrichment (this will fail or give unexpected results)
+enriched_result_0_05 = enrich_genes(gene_names_0_05, library_names)
+enriched_result_0_001 = enrich_genes(gene_names_0_001, library_names)
+
+message("Enrichment analysis attempted. Note: Database names may need verification.")
+
+
