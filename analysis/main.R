@@ -189,13 +189,18 @@ pheatmap(heatmap_data_0_001,cluster_rows = T,cluster_cols = T,annotation_col =  
 
 # scatter plot two top genes 
 rld <- rlog(dex, blind = FALSE)  # or vst(dex, blind = FALSE)
-# Choose two genes from the top differentially expressed genes
-gene1 <- "SPARCL1"  # Replace with the Ensembl ID of your first gene
-gene2 <- "STOM"  # Replace with the Ensembl ID of your second gene
 
-# Extract normalized expression values for the two genes
-gene1_counts <- assay(rld)[8521, ]
-gene2_counts <- assay(rld)[8082, ]
+# Choose two genes from the top differentially expressed genes
+gene1_symbol <- "SPARCL1"
+gene2_symbol <- "STOM"
+
+# Find Ensembl IDs for the gene symbols
+gene1_ensembl <- names(which(ens_to_gene(rownames(dex)) == gene1_symbol))[1]
+gene2_ensembl <- names(which(ens_to_gene(rownames(dex)) == gene2_symbol))[1]
+
+# Extract normalized expression values for the two genes using Ensembl IDs
+gene1_counts <- assay(rld)[gene1_ensembl, ]
+gene2_counts <- assay(rld)[gene2_ensembl, ]
 
 scatter_df <- data.frame(
   Gene1 = gene1_counts,
@@ -206,9 +211,9 @@ ggplot(scatter_df, aes(x = Gene1, y = Gene2)) +
   geom_smooth(method = "lm", se = FALSE, color = "red") +  # Add a linear regression line
   theme_minimal() +
   labs(
-    title = paste("Scatter Plot of", gene1, "vs", gene2),
-    x = paste(gene1, "Expression (rlog)"),
-    y = paste(gene2, "Expression (rlog)")
+    title = paste("Scatter Plot of", gene1_symbol, "vs", gene2_symbol),
+    x = paste(gene1_symbol, "Expression (rlog)"),
+    y = paste(gene2_symbol, "Expression (rlog)")
   )
 
 cor_test <- cor.test(scatter_df$Gene1, scatter_df$Gene2, method = "pearson")
